@@ -13,7 +13,7 @@
 / {
         /* Use 5-column (36-key) mapping for Chocofi-style Corne layouts */
         chosen {
-                zmk,matrix-transform = &five_column_transform;
+                zmk,physical-layout = &foostan_corne_5col_layout;
         };
 
         behaviors {
