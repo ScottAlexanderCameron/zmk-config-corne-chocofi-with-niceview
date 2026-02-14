@@ -11,6 +11,11 @@
 #include <dt-bindings/zmk/outputs.h>
 
 / {
+        /* Use 5-column (36-key) mapping for Chocofi-style Corne layouts */
+        chosen {
+                zmk,matrix-transform = &five_column_transform;
+        };
+
         behaviors {
                 hm_l: homerow_mods_left {
                         compatible = "zmk,behavior-hold-tap";
@@ -21,7 +26,8 @@
                         quick-tap-ms = <175>;
                         require-prior-idle-ms = <150>;
                         bindings = <&kp>, <&kp>;
-                        hold-trigger-key-positions = <6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35 39 40 41>;
+                        /* Left-hand HRMs: trigger hold when a RIGHT-hand key (or right thumb) is pressed */
+                        hold-trigger-key-positions = <5 6 7 8 9  15 16 17 18 19  25 26 27 28 29  33 34 35>;
                         hold-trigger-on-release;
                 };
 
@@ -34,7 +40,8 @@
                         quick-tap-ms = <175>;
                         require-prior-idle-ms = <150>;
                         bindings = <&kp>, <&kp>;
-                        hold-trigger-key-positions = <0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 36 37 38>;
+                        /* Right-hand HRMs: trigger hold when a LEFT-hand key (or left thumb) is pressed */
+                        hold-trigger-key-positions = <0 1 2 3 4  10 11 12 13 14  20 21 22 23 24  30 31 32>;
                         hold-trigger-on-release;
                 };
         };
@@ -44,91 +51,101 @@
 
                 layer_base {
                         bindings = <
-&none       &kp Q           &kp W           &kp F           &kp P          &kp B          &kp J           &kp L            &kp U            &kp Y            &kp SEMI         &none
-&none                       &hm_l LSHIFT R  &hm_l LALT S    &hm_l LGUI T   &kp G          &kp M           &hm_r RGUI N     &hm_r RALT E     &hm_r RSHIFT I   &hm_r RCTRL O    &none
-&none       &kp Z           &kp X           &kp C           &kp D          &kp V          &kp K           &kp H            &kp COMMA        &kp DOT          &kp FSLH         &none
-                                          &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &lt 6 RET         &lt 5 BSPC         &lt 4 DEL
+                                &kp Q           &kp W           &kp F           &kp P           &kp B           &kp J           &kp L            &kp U            &kp Y            &kp SEMI
+                                &hm_l LSHFT R    &hm_l LALT S     &hm_l LGUI T     &kp G           &kp M           &hm_r RGUI N     &hm_r RALT E      &hm_r RSHFT I     &hm_r RCTRL O     &kp A
+                                &kp Z           &kp X           &kp C           &kp D           &kp V           &kp K           &kp H            &kp COMMA        &kp DOT          &kp FSLH
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_nav {
                         bindings = <
-&none        &trans          &trans          &trans          &trans         &trans         &kp H            &kp J            &kp K            &kp L            &trans            &none
-&none        &hm_l LSHIFT R  &hm_l LALT S    &hm_l LGUI T    &trans         &trans         &kp LEFT         &kp DOWN         &kp UP           &kp RIGHT        &trans            &none
-&none        &trans          &trans          &trans          &trans         &trans         &kp HOME         &kp PG_DN        &kp PG_UP        &kp END          &trans            &none
-                                          &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &lt 6 RET         &lt 5 BSPC         &lt 4 DEL
+                                &trans          &trans          &trans          &trans          &trans          &kp H           &kp J            &kp K            &kp L            &trans
+                                &hm_l LSHFT R    &hm_l LALT S    &hm_l LGUI T     &trans          &trans          &kp LEFT        &kp DOWN         &kp UP           &kp RIGHT        &trans
+                                &trans          &trans          &trans          &trans          &trans          &kp HOME        &kp PG_DN        &kp PG_UP        &kp END          &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_num {
                         bindings = <
-&none        &trans          &trans          &trans          &trans         &trans         &kp KP_N7        &kp KP_N8        &kp KP_N9        &kp KP_PLUS      &kp KP_MINUS      &none
-&none        &trans          &trans          &trans          &trans         &trans         &kp KP_N4        &kp KP_N5        &kp KP_N6        &kp KP_MULTIPLY  &kp KP_DIVIDE     &none
-&none        &trans          &trans          &trans          &trans         &trans         &kp KP_N1        &kp KP_N2        &kp KP_N3        &kp KP_DOT       &kp KP_N0         &none
-                                          &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &lt 6 RET         &lt 5 BSPC         &lt 4 DEL
+                                &trans          &trans          &trans          &trans          &trans          &kp KP_N7       &kp KP_N8        &kp KP_N9        &kp KP_PLUS      &kp KP_MINUS
+                                &trans          &trans          &trans          &trans          &trans          &kp KP_N4       &kp KP_N5        &kp KP_N6        &kp KP_MULTIPLY  &kp KP_DIVIDE
+                                &trans          &trans          &trans          &trans          &trans          &kp KP_N1       &kp KP_N2        &kp KP_N3        &kp KP_DOT       &kp KP_N0
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_mouse {
                         bindings = <
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none        &trans          &trans          &trans          &trans         &trans         &mkp MB1         &mkp MB2         &mmv MOVE_UP     &mkp MB3         &trans            &none
-&none        &trans          &trans          &trans          &trans         &trans         &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT  &trans            &none
-                                          &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &mkp MB3        &mkp MB1         &mkp MB2
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &mkp MB1        &mkp MB2        &mmv MOVE_UP     &mkp MB3        &trans
+                                &trans          &trans          &trans          &trans          &trans          &msc SCRL_LEFT  &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT  &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &mkp MB3        &mkp MB1         &mkp MB2
                         >;
                 };
 
                 layer_sym {
                         bindings = <
-&none        &kp EXCL        &kp AT          &kp HASH        &kp DLLR       &kp PRCNT      &kp CARET        &kp AMPS         &kp KP_MULTIPLY         &kp LPAR         &kp RPAR          &none
-&none        &kp MINUS       &kp UNDER       &kp EQUAL       &kp PLUS       &kp BSLH       &kp LBKT         &kp RBKT         &kp LBRC         &kp RBRC         &kp PIPE          &none
-&none        &kp COMMA          &kp DOT          &kp COMMA       &kp DOT        &kp FSLH      &kp SEMI        &kp SEMI         &kp GRAVE          &kp SQT          &kp TILDE         &none
-                                          &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &lt 6 RET         &lt 5 BSPC         &lt 4 DEL
+                                &kp EXCL        &kp AT          &kp HASH        &kp DLLR        &kp PRCNT       &kp CARET       &kp AMPS         &kp KP_MULTIPLY  &kp LPAR         &kp RPAR
+                                &kp MINUS       &kp UNDER       &kp EQUAL       &kp PLUS        &kp BSLH        &kp LBKT        &kp RBKT         &kp LBRC         &kp RBRC         &kp PIPE
+                                &kp COMMA       &kp DOT         &kp COMMA       &kp DOT         &kp FSLH        &kp SEMI        &kp SEMI         &kp GRAVE        &kp SQT          &kp TILDE
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_util {
                         bindings = <
-&none          &bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2   &studio_unlock &bt BT_SEL 4     &bt BT_NXT       &bt BT_PRV       &out OUT_BLE     &out OUT_USB      &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-                                           &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &lt 6 RET         &lt 5 BSPC         &lt 4 DEL
+                                &bt BT_CLR      &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &studio_unlock  &bt BT_SEL 4    &bt BT_NXT       &bt BT_PRV       &out OUT_BLE     &out OUT_USB
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_fn {
                         bindings = <
-&none         &kp F2          &kp F3          &kp F4          &kp F5         &kp F6         &trans           &trans           &trans           &trans           &trans            &none
-&none         &kp F8          &kp F9          &kp F10         &kp F11        &kp F12        &trans           &trans           &trans           &trans           &trans            &none
-&none         &kp F14         &kp F15         &kp F16         &kp F17        &kp F18        &trans           &trans           &trans           &trans           &trans            &none
-                                           &lt 3 ESC         &lt 1 SPACE      &lt 2 TAB        &lt 6 RET         &lt 5 BSPC         &lt 4 DEL
+                                &kp F2          &kp F3          &kp F4          &kp F5          &kp F6          &trans          &trans          &trans          &trans          &trans
+                                &kp F8          &kp F9          &kp F10         &kp F11         &kp F12         &trans          &trans          &trans          &trans          &trans
+                                &kp F14         &kp F15         &kp F16         &kp F17         &kp F18         &trans          &trans          &trans          &trans          &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_extra_7 {
                         bindings = <
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-              &lt 3 ESC &lt 1 SPACE &lt 2 TAB &lt 6 RET &lt 5 BSPC &lt 4 DEL
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_extra_8 {
                         bindings = <
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-              &lt 3 ESC &lt 1 SPACE &lt 2 TAB &lt 6 RET &lt 5 BSPC &lt 4 DEL
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
 
                 layer_extra_9 {
                         bindings = <
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-&none &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &none
-              &lt 3 ESC &lt 1 SPACE &lt 2 TAB &lt 6 RET &lt 5 BSPC &lt 4 DEL
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+                                &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans
+
+                                                                &lt 3 ESC        &lt 1 SPACE       &lt 2 TAB         &lt 6 RET         &lt 5 BSPC        &lt 4 DEL
                         >;
                 };
         };
